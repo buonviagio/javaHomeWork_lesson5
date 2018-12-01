@@ -12,6 +12,6 @@ public class Modul {
         int b = sc.nextInt();
         int c = sc.nextInt();
 
-        System.out.println(a <= b & a <= c ? "наименьшее число " + a : b <= a & b <= c ? "наименьшее число " + b : "наименьшее число " + c);
+        System.out.println(a <= b && a <= c ? "наименьшее число " + a : b <= a && b <= c ? "наименьшее число " + b : "наименьшее число " + c);
     }
 }
