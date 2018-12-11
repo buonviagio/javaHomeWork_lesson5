@@ -13,11 +13,11 @@ public class Person {
     }
 
     void move() {
-        System.out.println(fullName + " говорит, что...");
+        System.out.println(fullName + " говорит");
     }
 
     void talk() {
-        System.out.println(fullName + " говорит, что...");
+        System.out.println(fullName + " говорит");
     }
 }
 
