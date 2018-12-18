@@ -1,71 +1,79 @@
 package homeWork_lesson7;
 
 public class Matrix {
-    double[][] matrixArray = new double[4][4];
+    double[][] matrixArray;
+    int rows;
+    int cols;
 
-    /*
-    Constructor
-     */
+
     public Matrix(double[][] matrix) {
         this.matrixArray = matrix;
+        this.rows = matrix.length;
+        this.cols = matrix[0].length;
     }
 
-    /* method
+    /*
+     method
     shows array
      */
-    public void show(double x[][]) {
-        for (int i = 0; i < x.length; i++) {
-            for (int j = 0; j < x[0].length; j++) {
-                System.out.print(x[i][j] + "; ");
-            }
+    public void show() {
+        for (double[] a : matrixArray) {
             System.out.println();
+            for (double b : a) {
+                System.out.print(b + " ");
+            }
+
         }
     }
 
     /*
-    matrix + matrix
+    sum of matrix
      */
-    public void calc(double array[][], double array1[][]) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
-                array[i][j] = array[i][j] + array1[i][j];
+    public Matrix calc(Matrix matrix) {
+
+            double[][] array = new double[rows][cols];
+
+            for (int i = 0; i < matrixArray.length; i++) {
+                for (int j = 0; j < matrixArray[0].length; j++) {
+                    array[i][j] = matrix.matrixArray[i][j] + this.matrixArray[i][j];
+                }
             }
-        }
+            return new Matrix(array);
     }
 
     /*
     matrix multiplication by number
      */
-    public void multiplication(double[][] array, double x) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[0].length; j++) {
-                array[i][j] = array[i][j] * x;
+
+
+        public Matrix multiplication ( double x){
+
+        double[][] array = new double[rows][cols];
+            for (int i = 0; i < this.matrixArray.length; i++) {
+                for (int j = 0; j < this.matrixArray[0].length; j++) {
+                    array[i][j] = this.matrixArray[i][j] * x;
+                }
             }
-        }
+        return new Matrix(array);
     }
 
-    /*
-    matrix multiplicationtemp
-     */
-    public void multMatrix(double[][] a, double[][] b) {
-        int m = a.length;
-        int n = b[0].length;
-        int o = b.length;
-        double[][] res = new double[m][n];
 
+    /*
+    matrix multiplication
+     */
+    public Matrix multMatrix(Matrix matrix) {
+        int m = this.matrixArray.length;
+        int n = matrix.matrixArray[0].length;
+        int o = matrix.matrixArray.length;
+        double[][] res = new double[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < o; k++) {
-                    res[i][j] += a[i][k] * b[k][j];
+                    res[i][j] += this.matrixArray[i][k] * matrix.matrixArray[k][j];
                 }
             }
         }
-        for (int i = 0; i < res.length; i++) {
-            for (int j = 0; j < res[0].length; j++) {
-                System.out.print(res[i][j] + "; ");
-            }
-            System.out.println();
-        }
+        return new Matrix(res);
     }
 }
 

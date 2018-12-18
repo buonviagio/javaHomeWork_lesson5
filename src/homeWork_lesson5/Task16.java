@@ -2,7 +2,7 @@ package homeWork_lesson5;
 
 public class Task16 {
     public static void main(String[] args) {
-        int[] abc = {9, 8, 3, 4, 78, 5, 43, 8, 0, 55, 2, 9, 3, 1, 99, 5, 100};
+        int[] abc = {9, 8, 3, 4, 78, 5, 43, 8, 0, 55, 2, 9, 3, 1, 99, 5, 7, 100};
         for (int b : abc) {
             System.out.print(b + " ");
         }
