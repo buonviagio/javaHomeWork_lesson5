@@ -1,11 +1,13 @@
 package online_store;
 
+import java.util.Objects;
+
 public class Goods {
     private String name;
-    private String price;
-    private String rating;
+    private int price;
+    private int rating;
 
-    public Goods(String name, String price, String rating) {
+    public Goods(String name, int price, int rating) {
         this.name = name;
         this.price = price;
         this.rating = rating;
@@ -19,19 +21,44 @@ public class Goods {
         this.name = name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Goods goods = (Goods) o;
+        return price == goods.price &&
+                rating == goods.rating &&
+                Objects.equals(name, goods.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, price, rating);
+    }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", rating=" + rating +
+                '}';
     }
 }
