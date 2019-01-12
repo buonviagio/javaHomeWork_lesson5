@@ -1,5 +1,5 @@
 package online_store;
 
 public enum Action {
-    SHOWCATEGORY, SHOWGOODS, CHOICEGOODS, BUYGOODS;
+    SHOW_CATEGORY, SHOW_GOODS, CHOICE_GOODS, BUY_GOODS;
 }

@@ -1,12 +1,11 @@
 package online_store;
 
-
 import java.util.Objects;
 
 public class User {
     private String login;
     private String password;
-    Basket basket;
+    private Basket basket;
 
     public User(String login, String password, Basket basket) {
         this.login = login;
@@ -18,10 +17,8 @@ public class User {
         return login;
     }
 
-    public void setArray (Goods [] array){
-
-            basket.setPurchasedFoods(array);
-
+    public void setArray(Goods[] array) {
+        basket.setPurchasedFoods(array);
     }
 
     public void setLogin(String login) {
