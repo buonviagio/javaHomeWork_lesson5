@@ -13,10 +13,8 @@ public class MinMax<T> {
         this.array = array;
     }
 
-    public void show(){
-        for (int i = 0; i < array.length; i++){
-            System.out.println(array[i]);
-        }
+    public void show() {
+
     }
 
 }
