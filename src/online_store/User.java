@@ -1,5 +1,6 @@
 package online_store;
 
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -17,7 +18,7 @@ public class User {
         return login;
     }
 
-    public void setArray(Goods[] array) {
+    public void setArray(List<Goods> array) {
         basket.setPurchasedFoods(array);
     }
 

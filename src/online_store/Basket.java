@@ -2,36 +2,59 @@ package online_store;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Basket {
-    private Goods[] purchasedFoods;
+    private List<Goods> purchasedFoods;
+    private int currentIndex;
 
-    public Basket(Goods[] purchasedFoods) {
+    public Basket(List<Goods> purchasedFoods) {
         this.purchasedFoods = purchasedFoods;
     }
 
     public Basket() {
     }
 
-    public Goods[] getPurchasedFoods() {
+    public List<Goods> getPurchasedFoods() {
         return purchasedFoods;
     }
 
-    public void setPurchasedFoods(Goods[] purchasedFoods) {
+    public void setPurchasedFoods(List<Goods> purchasedFoods) {
         this.purchasedFoods = purchasedFoods;
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
+    }
+
+    public void addGood(Goods good) {
+        currentIndex = 1;
+        purchasedFoods.add(currentIndex++, good);
+    }
+
+    public void printGoods() {
+        for (int i = 0; i <= currentIndex; i++) {
+            System.out.println(purchasedFoods.get(i));
+        }
     }
 
     public double returnPrise() {
         int summ = 0;
-        for (Goods a : purchasedFoods) {
-            summ += a.getPrice();
+        for (int i = 0; i < currentIndex; i++) {
+            summ += purchasedFoods.get(i).getPrice();
         }
         return summ;
     }
 
     public void returnRating() {
-        for (Goods b : purchasedFoods) {
-            System.out.println("Вы выбрали " + b.getName() + " с рейтенгом " + b.getRating());
+        for (int i = 0; i < currentIndex; i++) {
+            System.out.println("Вы выбрали " + purchasedFoods.get(i).getName() + " с рейтенгом "
+                    + purchasedFoods.get(i).getRating());
         }
     }
 
@@ -48,18 +71,21 @@ public class Basket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Basket basket = (Basket) o;
-        return Arrays.equals(purchasedFoods, basket.purchasedFoods);
+        return currentIndex == basket.currentIndex &&
+                Objects.equals(purchasedFoods, basket.purchasedFoods);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(purchasedFoods);
+
+        return Objects.hash(purchasedFoods, currentIndex);
     }
 
     @Override
     public String toString() {
         return "Basket{" +
-                "purchasedFoods=" + Arrays.toString(purchasedFoods) +
+                "purchasedFoods=" + purchasedFoods +
+                ", currentIndex=" + currentIndex +
                 '}';
     }
 }

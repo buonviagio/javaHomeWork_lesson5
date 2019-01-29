@@ -1,13 +1,15 @@
 package online_store;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Category {
     private String name;
-    private Goods[] arrayGoods;
+    private List<Goods> arrayGoods;
 
-    public Category(String name, Goods[] arrayGoods) {
+    public Category(String name, List<Goods> arrayGoods) {
         this.name = name;
         this.arrayGoods = arrayGoods;
     }
@@ -20,11 +22,11 @@ public class Category {
         this.name = name;
     }
 
-    public Goods[] getArrayGoods() {
+    public List<Goods> getArrayGoods() {
         return arrayGoods;
     }
 
-    public void setArrayGoods(Goods[] arrayGoods) {
+    public void setArrayGoods(List<Goods> arrayGoods) {
         this.arrayGoods = arrayGoods;
     }
 
@@ -34,22 +36,20 @@ public class Category {
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
         return Objects.equals(name, category.name) &&
-                Arrays.equals(arrayGoods, category.arrayGoods);
+                Objects.equals(arrayGoods, category.arrayGoods);
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(name);
-        result = 31 * result + Arrays.hashCode(arrayGoods);
-        return result;
+        return Objects.hash(name, arrayGoods);
     }
 
     @Override
     public String toString() {
         return "Category{" +
                 "name='" + name + '\'' +
-                ", arrayGoods=" + Arrays.toString(arrayGoods) +
+                ", arrayGoods=" + arrayGoods +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package online_store;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Demo {
@@ -14,13 +15,13 @@ public class Demo {
         Goods travelSwitzerland = new Goods("travel to Switzerland", 2000, 5);
         Goods travelFrance = new Goods("travel to France", 2100, 5);
 
-        Goods[] array = {travelSpain, travelGreece, travelEgypt, travelTurkey, travelThailand, travelGerman, travelSwitzerland, travelFrance};
+        List<Goods> arrayList = List.of(travelSpain, travelGreece, travelEgypt, travelTurkey, travelThailand, travelGerman, travelSwitzerland, travelFrance);
 
-        Category beachHolidays = new Category("beachHolidays", new Goods[]{travelEgypt, travelTurkey, travelSpain, travelGreece});
-        Category excursion = new Category("excursion", new Goods[]{travelSwitzerland, travelGerman});
-        Category skiVacation = new Category("skiVacation", new Goods[]{travelSwitzerland, travelFrance});
+        Category beachHolidays = new Category("beachHolidays", List.of(travelEgypt, travelTurkey, travelSpain, travelGreece));
+        Category excursion = new Category("excursion", List.of(travelSwitzerland, travelGerman));
+        Category skiVacation = new Category("skiVacation", List.of(travelSwitzerland, travelFrance));
 
-        Category[] categories = {beachHolidays, excursion, skiVacation};
+        List<Category> categories = List.of(beachHolidays, excursion, skiVacation);
 
         Basket basket = new Basket();
 
@@ -28,74 +29,76 @@ public class Demo {
         User user = new User("Dmitry", "B1234", new Basket());
         User user3 = new User("Nikolay", "C1234", new Basket());
 
-        User[] users = {user1, user, user3};
-
-        initialization(users);
-
+        List<User> users = List.of(user1, user, user3);
         Scanner sc = new Scanner(System.in);
-        String tmp = sc.nextLine();
-        Action action = Action.valueOf(tmp);
 
-        switch (action) {
-            case SHOW_CATEGORY:
-                System.out.println("Вам доступны категории:");
-                for (Category a : categories) {
-                    System.out.println(a.getName());
-                }
-            case SHOW_GOODS:
-                System.out.println("Выберите одну из категорий отдыха: Морской отдых - beachHolidays, Экскурсии - excursion, Катание на лыжах - skiVacation");
-                String a = sc.nextLine();
-                chooseCategory(beachHolidays, excursion, skiVacation, a);
-            case CHOICE_GOODS:
-                System.out.println("Выберите продукт, указавши его имя_");
-                String c = sc.nextLine();
-                for (int i = 0; i < array.length; i++) {
-                    if (array[i].getName().equals(c)) {
-                        basket.setPurchasedFoods(new Goods[]{array[i]});
-                        break;
-                    }
-                }
-                basket.returnRating();
-            case BUY_GOODS:
-                System.out.println("Вам необходимо оплатить: " + basket.returnPrise() + " условных единиц");
-                basket.getDate();
-        }
-    }
-
-    private static void initialization(User[] users) {
-        Scanner log = new Scanner(System.in);
-        System.out.println("Введите логин: ");
-        String login = log.nextLine();
-        System.out.println("Введите пароль: ");
-        String pass = log.nextLine();
-
-        for (int i = 0; i < users.length; i++) {
-            if (users[i].getLogin().equals(login) && users[i].getPassword().equals(pass)) {
+        if (authentication(users, sc)) {
+            while (true) {
                 System.out.println("Вы авторизированный пользователь, Вам доступны следующие возможности:");
                 System.out.println("Просмотр категорий отдыха - SHOW_CATEGORY");
                 System.out.println("Просмотр туристических пакетов - SHOW_GOODS");
                 System.out.println("Выбор туристического пакета в корзину - CHOICE_GOODS");
                 System.out.println("Введите команду:");
-                break;
+                String tmp = sc.nextLine();
+                Action action = Action.valueOf(tmp);
+                switch (action) {
+                    case SHOW_CATEGORY:
+                        System.out.println("Вам доступны категории:");
+                        for (Category a : categories) {
+                            System.out.println(a.getName());
+                        }
+                        break;
+                    case SHOW_GOODS:
+                        System.out.println("Выберите одну из категорий отдыха: Морской отдых - beachHolidays, Экскурсии - excursion, Катание на лыжах - skiVacation");
+                        String a = sc.nextLine();
+                        chooseCategory(beachHolidays, a);
+                        chooseCategory(excursion, a);
+                        chooseCategory(skiVacation, a);
+                        break;
+                    case CHOICE_GOODS:
+                        System.out.println("Выберите продукт, указавши его имя_");
+                        String c = sc.nextLine();
+                        for (Goods good : arrayList) {
+                            if (good.getName().equals(c)) {
+                                basket.addGood(good);
+                                break;
+                            }
+                        }
+                        basket.returnRating();
+                        break;
+                    case BUY_GOODS:
+                        System.out.println("Вы приобрели: ");
+                        basket.printGoods();
+                        System.out.println("Вам необходимо оплатить: " + basket.returnPrise() + " условных единиц");
+                        basket.getDate();
+                }
             }
-            if (i == users.length - 1)
-                System.out.println("Вам необходима регистрация");
         }
     }
 
-    private static void chooseCategory(Category beachHolidays, Category excursion, Category skiVacation, String a) {
-        if (beachHolidays.getName().equals(a)) {
-            for (Goods b : beachHolidays.getArrayGoods()) {
-                System.out.println(b.getName());
+    private static boolean authentication(List<User> users, Scanner log) {
+        System.out.println("Введите логин: ");
+        String login = log.nextLine();
+        System.out.println("Введите пароль: ");
+        String pass = log.nextLine();
+        if (Authentication.authenticate(login, pass)) {
+
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getLogin().equals(login) && users.get(i).getPassword().equals(pass)) {
+                    return true;
+                }
+                if (i == users.size() - 1) {
+                    System.out.println("Вам необходима регистрация");
+                    return false;
+                }
             }
         }
-        if (excursion.getName().equals(a)) {
-            for (Goods b : excursion.getArrayGoods()) {
-                System.out.println(b.getName());
-            }
-        }
-        if (skiVacation.getName().equals(a)) {
-            for (Goods b : skiVacation.getArrayGoods()) {
+        return false;
+    }
+
+    private static void chooseCategory(Category category, String a) {
+        if (category.getName().equals(a)) {
+            for (Goods b : category.getArrayGoods()) {
                 System.out.println(b.getName());
             }
         }
