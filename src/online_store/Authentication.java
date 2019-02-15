@@ -17,7 +17,7 @@ public class Authentication {
             }
             if (pass.length() > 20 || passAuthentication(pass, UppChar) != 1) {
                 //!pass.equals(confPass)
-                throw new WrongPasswordException("Пароль должен содержать меньше 20 символов и начинаться с заглавной буквы");
+                throw new WrongPasswordException("Пароль должен содержать меньше 20 символов и иметь хотя бы одну заглавную букву");
             }
         } catch (WrongLoginException | WrongPasswordException e) {
             System.out.println(e.getMessage());
@@ -27,9 +27,11 @@ public class Authentication {
     }
 
     private static int passAuthentication(String pass, List<Character> list) {
-        for (Character a : list) {
-            if (pass.charAt(0) == a) {
-                return 1;
+        for (int i = 0; i < pass.length(); i++) {
+            for (Character a : list) {
+                if (pass.charAt(i) == a) {
+                    return 1;
+                }
             }
         }
         return 0;

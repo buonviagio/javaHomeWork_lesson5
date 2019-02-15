@@ -1,13 +1,14 @@
 package online_store;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Basket {
-    private List<Goods> purchasedFoods;
-    private int currentIndex;
+public class Basket implements Serializable {
+    private List<Goods> purchasedFoods = new ArrayList<>();
 
     public Basket(List<Goods> purchasedFoods) {
         this.purchasedFoods = purchasedFoods;
@@ -24,38 +25,37 @@ public class Basket {
         this.purchasedFoods = purchasedFoods;
     }
 
-    public int getCurrentIndex() {
-        return currentIndex;
-    }
-
-    public void setCurrentIndex(int currentIndex) {
-        this.currentIndex = currentIndex;
-    }
 
     public void addGood(Goods good) {
-        currentIndex = 1;
-        purchasedFoods.add(currentIndex++, good);
+        this.purchasedFoods.add(good);
     }
 
     public void printGoods() {
-        for (int i = 0; i <= currentIndex; i++) {
-            System.out.println(purchasedFoods.get(i));
+        for (int i = 0; i < purchasedFoods.size(); i++) {
+            System.out.println(purchasedFoods.get(i).getName() + " " + purchasedFoods.get(i).getPrice() );
         }
     }
 
     public double returnPrise() {
         int summ = 0;
-        for (int i = 0; i < currentIndex; i++) {
+        for (int i = 0; i < purchasedFoods.size(); i++) {
             summ += purchasedFoods.get(i).getPrice();
         }
         return summ;
     }
 
     public void returnRating() {
-        for (int i = 0; i < currentIndex; i++) {
+        for (int i = 0; i < purchasedFoods.size(); i++) {
             System.out.println("Вы выбрали " + purchasedFoods.get(i).getName() + " с рейтенгом "
                     + purchasedFoods.get(i).getRating());
         }
+    }
+
+    public String returnNameOfProducts() {
+        for (int i = 0; i < purchasedFoods.size(); i++) {
+            return purchasedFoods.get(i).getName();
+        }
+        return null;
     }
 
     public void getDate() {
@@ -71,21 +71,19 @@ public class Basket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Basket basket = (Basket) o;
-        return currentIndex == basket.currentIndex &&
-                Objects.equals(purchasedFoods, basket.purchasedFoods);
+        return Objects.equals(purchasedFoods, basket.purchasedFoods);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(purchasedFoods, currentIndex);
+        return Objects.hash(purchasedFoods);
     }
 
     @Override
     public String toString() {
         return "Basket{" +
                 "purchasedFoods=" + purchasedFoods +
-                ", currentIndex=" + currentIndex +
                 '}';
     }
 }
